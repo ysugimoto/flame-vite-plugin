@@ -10,7 +10,7 @@
     "fmt": "biome format --write ./src",
     "test": "vitest"
   },
-  "keywords": [],
+  "keywords": ["vite", "CodeIgniter"],
   "author": "",
   "license": "MIT",
   "devDependencies": {
