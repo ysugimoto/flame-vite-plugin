@@ -8,25 +8,28 @@ importers:
 
   .:
     dependencies:
-      '@biomejs/biome':
-        specifier: ^1.8.3
-        version: 1.8.3
       rollup:
         specifier: ^4.20.0
         version: 4.20.0
       vite:
         specifier: ^5.4.0
         version: 5.4.0(@types/node@22.2.0)
-      vitest:
-        specifier: ^2.0.5
-        version: 2.0.5(@types/node@22.2.0)
+      ws:
+        specifier: ^8.18.0
+        version: 8.18.0
     devDependencies:
+      '@biomejs/biome':
+        specifier: ^1.8.3
+        version: 1.8.3
       '@types/node':
         specifier: ^22.2.0
         version: 22.2.0
       typescript:
         specifier: ^5.5.4
         version: 5.5.4
+      vitest:
+        specifier: ^2.0.5
+        version: 2.0.5(@types/node@22.2.0)
 
 packages:
 
@@ -594,6 +597,18 @@ packages:
     engines: {node: '>=8'}
     hasBin: true
 
+  ws@8.18.0:
+    resolution: {integrity: sha512-8VbfWfHLbbwu3+N6OKsOMpBdT4kXPDDB9cJk2bJ6mh9ucxdlnNvH1e+roYkKmN9Nxw2yjz7VzeO9oOz2zJ04Pw==}
+    engines: {node: '>=10.0.0'}
+    peerDependencies:
+      bufferutil: ^4.0.1
+      utf-8-validate: '>=5.0.2'
+    peerDependenciesMeta:
+      bufferutil:
+        optional: true
+      utf-8-validate:
+        optional: true
+
 snapshots:
 
   '@ampproject/remapping@2.3.0':
@@ -1050,3 +1065,5 @@ snapshots:
     dependencies:
       siginfo: 2.0.0
       stackback: 0.0.2
+
+  ws@8.18.0: {}
