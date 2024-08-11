@@ -5,7 +5,8 @@ import path from "node:path";
 
 type PluginConfig = {
   input: string | Array<string> | Record<string, string>;
-  keepManifest?: boolean;
+  keepViteManifest?: boolean;
+  manifestPath?: string;
 };
 
 const viteDevServerDefaultHost = "localhost";
@@ -55,6 +56,7 @@ type GenerateManifestInput = {
   resolvedConfig: ResolvedConfig;
   manifest: Record<string, Record<string, string | Array<string> | boolean>>;
   isServer: boolean;
+  manifestPath: string|undefined;
 };
 
 // Geenrate flame manifest
@@ -63,6 +65,7 @@ export async function generateFlameManifest({
   resolvedConfig,
   manifest,
   isServer,
+  manifestPath,
 }: GenerateManifestInput): Promise<void> {
   // Get aliases from plugin input
   const aliases: Record<string, string> = {};
@@ -79,7 +82,7 @@ export async function generateFlameManifest({
   const library = getDedupedLibrary(resolvedConfig);
 
   // Generate flame manifest
-  const targetPath = path.join(resolvedConfig.build.outDir, ".flame");
+  const targetPath = path.join(manifestPath ?? resolvedConfig.build.outDir, ".flame");
   const flameManifest = {
     manifest,
     aliases,
@@ -92,7 +95,11 @@ export async function generateFlameManifest({
   return fs.writeFile(targetPath, JSON.stringify(flameManifest), "utf8");
 }
 
-export default ({ input, keepManifest = false }: PluginConfig) => {
+export default ({
+  input,
+  manifestPath,
+  keepViteManifest = false,
+}: PluginConfig) => {
   let pluginInputs = collectEntryPoints(input);
   let resolvedConfig: ResolvedConfig;
   let isServer: boolean;
@@ -148,6 +155,7 @@ export default ({ input, keepManifest = false }: PluginConfig) => {
         resolvedConfig,
         isServer,
         manifest,
+        manifestPath,
       });
     },
 
@@ -170,11 +178,12 @@ export default ({ input, keepManifest = false }: PluginConfig) => {
           resolvedConfig,
           isServer,
           manifest,
+          manifestPath,
         }),
       ];
 
       // And delete vite's manifest file if user would not like to have
-      if (!isUserManifest && !keepManifest) {
+      if (!isUserManifest && !keepViteManifest) {
         promises.push(
           fs.unlink(path.join(resolvedConfig.build.outDir, manifestFilename)),
         );
