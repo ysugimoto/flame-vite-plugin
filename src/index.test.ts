@@ -11,12 +11,11 @@ describe("Plugin test", () => {
       config: expect.any(Function),
       writeBundle: expect.any(Function),
     });
-    const config = plugin.config({}, { command: "build", mode: "development" });
+    const config = plugin.config({}, { command: "build" });
     expect(config).toMatchObject({
       build: {
         manifest: ".vite/manifest.json",
-        outDir: "../public",
-        emptyOutDir: true,
+        outDir: "dist",
         rollupOptions: {
           input: ["foo/bar.js"],
         },
@@ -34,12 +33,11 @@ describe("Plugin test", () => {
       config: expect.any(Function),
       writeBundle: expect.any(Function),
     });
-    const config = plugin.config({}, { command: "build", mode: "development" });
+    const config = plugin.config({}, { command: "build" });
     expect(config).toMatchObject({
       build: {
         manifest: ".vite/manifest.json",
-        outDir: "../public",
-        emptyOutDir: true,
+        outDir: "dist",
         rollupOptions: {
           input: ["foo/bar.js", "foo/bar.css"],
         },
@@ -60,12 +58,11 @@ describe("Plugin test", () => {
       config: expect.any(Function),
       writeBundle: expect.any(Function),
     });
-    const config = plugin.config({}, { command: "build", mode: "development" });
+    const config = plugin.config({}, { command: "build" });
     expect(config).toMatchObject({
       build: {
         manifest: ".vite/manifest.json",
-        outDir: "../public",
-        emptyOutDir: true,
+        outDir: "dist",
         rollupOptions: {
           input: ["foo/bar.js", "hoge/huga.js"],
         },
