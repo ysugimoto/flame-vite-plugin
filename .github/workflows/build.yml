@@ -1,11 +1,14 @@
 name: build and test
 
 on:
+  pull_request:
+    branches:
+      - "*"
   push:
     branches:
       - "*"
     tags-ignore:
-      - "v*.*.*"
+      - "*"
 
 jobs:
   build:
