@@ -10,7 +10,7 @@ type PluginConfig = {
 
 const viteDevServerDefaultHost = "localhost";
 const viteDevServerDefaultPort = 5137; // 5173 is vite devserver default port
-const viteDefaultManifestFile  = ".vite/manifest.json";
+const viteDefaultManifestFile = ".vite/manifest.json";
 
 // Get { [alias|filename]: filename } object from plugin input.
 export function collectEntryPoints(
@@ -53,9 +53,9 @@ export function getDedupedLibrary(config: ResolvedConfig): string {
 type GenerateManifestInput = {
   pluginInputs: Record<string, string>;
   resolvedConfig: ResolvedConfig;
-  manifest: Record<string, any>;
+  manifest: Record<string, Record<string, string | Array<string> | boolean>>;
   isServer: boolean;
-}
+};
 
 // Geenrate flame manifest
 export async function generateFlameManifest({
@@ -92,10 +92,7 @@ export async function generateFlameManifest({
   return fs.writeFile(targetPath, JSON.stringify(flameManifest), "utf8");
 }
 
-export default ({
-  input,
-  keepManifest = false,
-}: PluginConfig) => {
+export default ({ input, keepManifest = false }: PluginConfig) => {
   let pluginInputs = collectEntryPoints(input);
   let resolvedConfig: ResolvedConfig;
   let isServer: boolean;
@@ -140,7 +137,7 @@ export default ({
       }
 
       // Genearate flame manifest here due to writeBundle hook will not call on start server.
-      const manifest: Record<string, { file: string, src: string }> = {};
+      const manifest: Record<string, { file: string; src: string }> = {};
       for (const [key, value] of Object.entries(pluginInputs)) {
         manifest[value] = { file: key, src: key };
       }
@@ -172,7 +169,7 @@ export default ({
           resolvedConfig,
           isServer,
           manifest,
-        })
+        }),
       ];
 
       // And delete vite's manifest file if user would not like to have
