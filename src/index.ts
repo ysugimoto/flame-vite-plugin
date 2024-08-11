@@ -9,7 +9,7 @@ type PluginConfig = {
 };
 
 const viteDevServerDefaultHost = "localhost";
-const viteDevServerDefaultPort = 5137; // 5173 is vite devserver default port
+const viteDevServerDefaultPort = 5173; // 5173 is vite devserver default port
 const viteDefaultManifestFile = ".vite/manifest.json";
 
 // Get { [alias|filename]: filename } object from plugin input.
@@ -122,6 +122,7 @@ export default ({ input, keepManifest = false }: PluginConfig) => {
           ...(config.server ?? {}),
           ...(isServer
             ? {
+                cors: true,
                 strictPort: config.server?.strictPort ?? true,
                 origin: `http://${config.server?.host ?? viteDevServerDefaultHost}:${config.server?.port ?? viteDevServerDefaultPort}`,
               }
