@@ -77,20 +77,18 @@ export async function generateFlameManifest({
   }
 
   // Get devServer configurations
-  const port = resolvedConfig.server.port ?? viteDevServerDefaultPort;
-  const host = resolvedConfig.server.host ?? viteDevServerDefaultHost;
-  const library = getDedupedLibrary(resolvedConfig);
+  const server =  {
+    library: getDedupedLibrary(resolvedConfig),
+    port: resolvedConfig.server.port ?? viteDevServerDefaultPort,
+    host: resolvedConfig.server.host ?? viteDevServerDefaultHost,
+  };
 
   // Generate flame manifest
   const targetPath = path.join(manifestPath ?? resolvedConfig.build.outDir, ".flame");
   const flameManifest = {
     manifest,
     aliases,
-    ...(isServer ? {
-      library,
-      port,
-      host,
-    } : {}),
+    ...(isServer ? { server } : {}),
   };
 
   return fs.writeFile(targetPath, JSON.stringify(flameManifest), "utf8");
