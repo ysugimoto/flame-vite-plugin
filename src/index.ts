@@ -86,10 +86,11 @@ export async function generateFlameManifest({
   const flameManifest = {
     manifest,
     aliases,
-    library,
-    isServer,
-    port,
-    host,
+    ...(isServer ? {
+      library,
+      port,
+      host,
+    } : {}),
   };
 
   return fs.writeFile(targetPath, JSON.stringify(flameManifest), "utf8");
