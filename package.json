@@ -1,6 +1,6 @@
 {
   "name": "flame-vite-plugin",
-  "version": "0.5.4",
+  "version": "0.5.5",
   "description": "flame vite plugin, inragrate build assets with CodeIgniter",
   "main": "dist/index.js",
   "type": "module",
